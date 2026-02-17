@@ -3,6 +3,7 @@
  */
 
 package com.mycompany.busnovatech;
+import com.mycompany.busnovatech.config.*;
 
 /**
  *
@@ -11,6 +12,10 @@ package com.mycompany.busnovatech;
 public class Main {
 
     public static void main(String[] args) {
-        
+        pruebas();
+    }
+    public static void pruebas(){
+        ConfiManager configuracion = new ConfiManager();
+        configuracion.cargarConfig();
     }
 }
