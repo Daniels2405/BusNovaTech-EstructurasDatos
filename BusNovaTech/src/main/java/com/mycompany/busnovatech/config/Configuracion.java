@@ -4,10 +4,23 @@
  */
 package com.mycompany.busnovatech.config;
 
+import com.mycompany.busnovatech.Estructuras.*;
+import com.mycompany.busnovatech.Terminales.TerminalDeBuses;
+
 /**
  *
  * @author daniel-2405
  */
 public class Configuracion {
+    private TerminalDeBuses terminalBuses;
+
+    public TerminalDeBuses getTerminalBuses() {
+        return terminalBuses;
+    }
+
+    public void setTerminalBuses(TerminalDeBuses terminalBuses) {
+        this.terminalBuses = terminalBuses;
+    }
+
     
 }
