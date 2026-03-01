@@ -10,4 +10,11 @@
         <maven.compiler.release>25</maven.compiler.release>
         <exec.mainClass>com.mycompany.busnovatech.Main</exec.mainClass>
     </properties>
+    <dependencies>
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.10.1</version>
+    </dependency>
+    </dependencies>
 </project>
