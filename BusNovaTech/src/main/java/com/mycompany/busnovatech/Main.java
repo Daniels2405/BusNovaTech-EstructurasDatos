@@ -6,15 +6,17 @@ package com.mycompany.busnovatech;
 
 import javax.swing.JOptionPane;
 
-/**
- *
- * 
- */
 public class Main {
 
     public static void main(String[] args) {
 
+        ManagerUsuarios manager = new ManagerUsuarios();
         ListaUsuarios lista = new ListaUsuarios();
+
+        // Cargar usuarios desde JSON al iniciar
+        for (Usuario u : manager.cargarUsuarios()) {
+            lista.agregarUsuario(u);
+        }
 
         int opcion;
 
@@ -28,7 +30,7 @@ public class Main {
             switch (opcion) {
 
                 case 1:
-                    registrar(lista);
+                    Registro.registrar(lista, manager);
                     break;
 
                 case 2:
@@ -44,22 +46,6 @@ public class Main {
             }
 
         } while (opcion != 3);
-    }
-
-    public static void registrar(ListaUsuarios lista) {
-
-        String nombre = JOptionPane.showInputDialog("Ingrese usuario:");
-        String pass = JOptionPane.showInputDialog("Ingrese contraseña:");
-
-        if (lista.buscarUsuario(nombre) != null) {
-            JOptionPane.showMessageDialog(null, "El usuario ya existe.");
-            return;
-        }
-
-        Usuario nuevo = new Usuario(nombre, pass);
-        lista.agregarUsuario(nuevo);
-
-        JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.");
     }
 
     public static void login(ListaUsuarios lista) {

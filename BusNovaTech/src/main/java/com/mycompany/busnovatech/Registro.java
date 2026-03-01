@@ -7,13 +7,12 @@ package com.mycompany.busnovatech;
 /**
  *
  * @author Mario
- */import javax.swing.JOptionPane;
-import java.io.FileWriter;
-import java.io.IOException;
+ */
+import javax.swing.JOptionPane;
 
 public class Registro {
 
-    public static void registrar(ListaUsuarios lista) {
+    public static void registrar(ListaUsuarios lista, ManagerUsuarios manager) {
 
         String nombre = JOptionPane.showInputDialog("Ingrese nombre de usuario:");
 
@@ -28,26 +27,39 @@ public class Registro {
             return;
         }
 
-        String contrasena = JOptionPane.showInputDialog("Ingrese contraseña:");
+        String contrasena;
 
-        if (contrasena == null || contrasena.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Contraseña inválida.");
-            return;
-        }
+        do {
+            contrasena = JOptionPane.showInputDialog(
+                    "Ingrese contraseña (Máximo 10 caracteres)");
 
+            if (contrasena == null || contrasena.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Contraseña inválida.");
+                return;
+            }
+
+            if (contrasena.length() > 10) {
+                JOptionPane.showMessageDialog(null,
+                        "Contraseña demasiado larga, máximo 10 caracteres.");
+            }
+
+        } while (contrasena.length() > 10);
+
+        // Crear usuario
         Usuario nuevo = new Usuario(nombre, contrasena);
 
-        // Agregar a la lista
+        // Agregar a lista enlazada
         lista.agregarUsuario(nuevo);
 
-        // Guardar en archivo
-        try (FileWriter fw = new FileWriter("usuarios.txt", true)) {
-            fw.write(nuevo.toArchivo() + "\n");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al guardar usuario.");
+        try {
+            manager.guardarUsuarios(lista);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "Error al guardar los usuarios.");
             return;
         }
 
-        JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.");
+        JOptionPane.showMessageDialog(null,
+                "Usuario registrado correctamente.");
     }
-}
+}  
