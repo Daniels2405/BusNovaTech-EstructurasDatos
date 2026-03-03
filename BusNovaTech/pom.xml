@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>25</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>   <!-- ← cambiado -->
         <exec.mainClass>com.mycompany.busnovatech.Main</exec.mainClass>
     </properties>
     <dependencies>
@@ -17,12 +17,16 @@
             <version>2.10.1</version>
         </dependency>
     </dependencies>
-    <plugin>
-    <groupId>org.codehaus.mojo</groupId>
-    <artifactId>exec-maven-plugin</artifactId>
-    <version>3.1.0</version>
-        <configuration>
-            <mainClass>com.mycompany.busnovatech.Main</mainClass>
-        </configuration>
-    </plugin>
+    <build>                        
+        <plugins>                  
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>com.mycompany.busnovatech.Main</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>                 
+    </build>                       
 </project>

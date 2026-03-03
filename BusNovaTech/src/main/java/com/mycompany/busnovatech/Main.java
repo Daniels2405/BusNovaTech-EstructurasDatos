@@ -83,7 +83,7 @@ public class Main {
     public static void menuPrincipal() {
 
         try {
-            configuracion = configManager.cargarConfig(null);
+            configuracion = configManager.cargarConfig();
 
             if (configuracion != null && configuracion.getTerminalBuses() != null) {
                 colaBuses = configuracion.getTerminalBuses().getColaBuses();
