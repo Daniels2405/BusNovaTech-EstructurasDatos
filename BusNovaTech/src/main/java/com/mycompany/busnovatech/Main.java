@@ -7,7 +7,6 @@ import com.mycompany.busnovatech.Buses.*;
 import com.mycompany.busnovatech.Estructuras.*;
 
 public class Main {
-    
     public static ColaBuses colaBuses;
     public static ConfigManager configManager = new ConfigManager();
     public static Configuracion configuracion;
@@ -18,15 +17,11 @@ public class Main {
     public static void main(String[] args) {
         
         managerUsuarios = new ManagerUsuarios();
-        listaUsuarios = new ListaUsuarios();
 
-        // Cargar usuarios desde JSON al iniciar
-        for (Usuario u : managerUsuarios.cargarUsuarios()) {
-            listaUsuarios.agregarUsuario(u);
-        }
+        // CARGA CORREGIDA (sin List, sin for-each)
+        listaUsuarios = managerUsuarios.cargarUsuarios();
 
-       
-            int opcion = 0;
+        int opcion = 0;
 
         do { 
             try {
@@ -35,7 +30,7 @@ public class Main {
                         "1. Registrar\n2. Iniciar sesión\n3. Salir"
                 );
 
-                if (input == null) { // si presiona cancelar
+                if (input == null) {
                     opcion = 3;
                 } else {
                     opcion = Integer.parseInt(input);
@@ -63,11 +58,10 @@ public class Main {
                 JOptionPane.showMessageDialog(null, 
                     "Error: Debe ingresar un número válido.");
             }
-            } while (opcion != 3);
-        }
-    
-    
 
+        } while (opcion != 3);
+    }
+    
     public static void login(ListaUsuarios lista) {
 
         String nombre = JOptionPane.showInputDialog("Usuario:");
@@ -80,97 +74,103 @@ public class Main {
 
         if (usuario != null && usuario.validarContrasena(pass)) {
             JOptionPane.showMessageDialog(null, "Bienvenido " + nombre);
-            menuPrincipal(); // Solo si login es correcto
+            menuPrincipal();
         } else {
             JOptionPane.showMessageDialog(null, "Credenciales incorrectas.");
         }
     }
 
-public static void menuPrincipal() {
+    public static void menuPrincipal() {
 
-    try {
-        configuracion = configManager.cargarConfig(null);
-
-        if (configuracion != null && configuracion.getTerminalBuses() != null) {
-            colaBuses = configuracion.getTerminalBuses().getColaBuses();
-        }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null,
-                "Error al cargar/crear la configuración: " + e.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
-    }
-
-    int opcionMenu = 0;
-
-    do {
         try {
-            String texto = "========= BusNovaTech =========\n"
-                    + "1. Módulo Buses\n"
-                    + "2. Módulo Terminales\n"
-                    + "3. Módulo Atención / Cola\n"
-                    + "4. MÓDULO 4 (Reportes / Historial)\n"
-                    + "5. Cerrar Sesión\n\n"
-                    + "Digite una opción:";
+            configuracion = configManager.cargarConfig(null);
 
-            String input = JOptionPane.showInputDialog(texto);
-            if (input == null) return;
-
-            opcionMenu = Integer.parseInt(input);
-
-            switch (opcionMenu) {
-
-            case 1:
-               // Crear terminal si no existe
-               if (configuracion == null || configuracion.getTerminalBuses() == null) {
-                   configuracion = configManager.crearTerminal(); // Método público en ConfigManager
-                   colaBuses = configuracion.getTerminalBuses().getColaBuses();
-                   JOptionPane.showMessageDialog(null, "Terminal y buses creados correctamente.");
-               }
-
-               // Mostrar lista de buses
-               if (colaBuses != null && !colaBuses.isEmpty()) {
-                   String mensaje = "=== Lista de Buses ===\n";
-                   Bus actual = colaBuses.front(); // front() devuelve el primer Bus
-                   while (actual != null) {
-                       mensaje += "ID: " + actual.getIdBus() +
-                                  ", Terminal: " + actual.getTerminal() +
-                                  ", Tipo: " + actual.getTipoBus() + "\n";
-                       actual = actual.getSiguiente(); // Siguiente bus en la cola
-                   }
-                   JOptionPane.showMessageDialog(null, mensaje);
-               } else {
-                   JOptionPane.showMessageDialog(null, "No hay buses disponibles.");
-               }
-               break;
-
-                case 2:
-                    JOptionPane.showMessageDialog(null, "Módulo Terminales (en desarrollo)");
-                    break;
-
-                case 3:
-                    JOptionPane.showMessageDialog(null, "Módulo Atención / Cola (en desarrollo)");
-                    break;
-
-                case 4:
-                    Modulo4Aportes.mostrar(listaUsuarios, configuracion);
-                    break;
-
-                case 5:
-                    JOptionPane.showMessageDialog(null, "Saliendo del menú...");
-                    break;
-
-                default:
-                    JOptionPane.showMessageDialog(null, "Opción inválida");
+            if (configuracion != null && configuracion.getTerminalBuses() != null) {
+                colaBuses = configuracion.getTerminalBuses().getColaBuses();
             }
 
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Error: Debe ingresar un número válido.");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    "Error al cargar/crear la configuración: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
 
-    } while (opcionMenu != 5);
-}
+        int opcionMenu = 0;
+
+        do {
+            try {
+                String texto = "========= BusNovaTech =========\n"
+                        + "1. Módulo Buses\n"
+                        + "2. Módulo Terminales\n"
+                        + "3. Módulo Atención / Cola\n"
+                        + "4. MÓDULO 4 (Reportes / Historial)\n"
+                        + "5. Cerrar Sesión\n\n"
+                        + "Digite una opción:";
+
+                String input = JOptionPane.showInputDialog(texto);
+                if (input == null) return;
+
+                opcionMenu = Integer.parseInt(input);
+
+                switch (opcionMenu) {
+
+                    case 1:
+
+                        if (configuracion == null || configuracion.getTerminalBuses() == null) {
+                            configuracion = configManager.crearTerminal();
+                            colaBuses = configuracion.getTerminalBuses().getColaBuses();
+                            JOptionPane.showMessageDialog(null, "Terminal y buses creados correctamente.");
+                        }
+
+                        if (colaBuses != null && !colaBuses.isEmpty()) {
+
+                            String mensaje = "=== Lista de Buses ===\n";
+
+                            Bus actual = colaBuses.front();
+
+                            while (actual != null) {
+                                mensaje += "ID: " + actual.getIdBus() +
+                                           ", Terminal: " + actual.getTerminal() +
+                                           ", Tipo: " + actual.getTipoBus() + "\n";
+
+                                actual = actual.getSiguiente();
+                            }
+
+                            JOptionPane.showMessageDialog(null, mensaje);
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No hay buses disponibles.");
+                        }
+
+                        break;
+
+                    case 2:
+                        JOptionPane.showMessageDialog(null, "Módulo Terminales (en desarrollo)");
+                        break;
+
+                    case 3:
+                        JOptionPane.showMessageDialog(null, "Módulo Atención / Cola (en desarrollo)");
+                        break;
+
+                    case 4:
+                        Modulo4Aportes.mostrar(listaUsuarios, configuracion);
+                        break;
+
+                    case 5:
+                        JOptionPane.showMessageDialog(null, "Saliendo del menú...");
+                        break;
+
+                    default:
+                        JOptionPane.showMessageDialog(null, "Opción inválida");
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Error: Debe ingresar un número válido.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage());
+            }
+
+        } while (opcionMenu != 5);
+    }
 }

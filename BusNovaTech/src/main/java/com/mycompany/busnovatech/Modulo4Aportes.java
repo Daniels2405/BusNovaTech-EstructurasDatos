@@ -17,67 +17,19 @@ public class Modulo4Aportes {
 
     public static void mostrar(ListaUsuarios listaUsuarios, Configuracion configuracion) {
 
-        int op = 0;
+        String mensaje = "=== LISTA DE USUARIOS ===\n\n";
 
-        do {
-            String menu = "===== MÓDULO 4: Reportes / Historial =====\n"
-                    + "1) Cantidad de usuarios registrados\n"
-                    + "2) Listar usuarios\n"
-                    + "3) Volver\n";
+        NodoUsuario actual = listaUsuarios.getCabeza();
 
-            op = Integer.parseInt(JOptionPane.showInputDialog(menu));
-
-            switch (op) {
-
-                case 1:
-                    int total = 0;
-
-                    if (listaUsuarios != null) {
-                        total = listaUsuarios.toArrayList().size();
-                    }
-
-                    JOptionPane.showMessageDialog(null,
-                            "Usuarios registrados: " + total,
-                            "Reporte",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    break;
-
-                case 2:
-                    JOptionPane.showMessageDialog(null,
-                            listarUsuarios(listaUsuarios),
-                            "Listado de usuarios",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    break;
-
-                case 3:
-                    // volver al menú principal
-                    break;
-
-                default:
-                    JOptionPane.showMessageDialog(null, "Opción inválida");
+        if (actual == null) {
+            mensaje += "No hay usuarios registrados.\n";
+        } else {
+            while (actual != null) {
+                mensaje += "- " + actual.dato.getNombreUsuario() + "\n";
+                actual = actual.siguiente;
             }
-
-        } while (op != 3);
-    }
-
-    private static String listarUsuarios(ListaUsuarios listaUsuarios) {
-
-        if (listaUsuarios == null) {
-            return "No hay usuarios.";
         }
 
-        String texto = "===== LISTADO DE USUARIOS =====\n";
-
-        java.util.List<Usuario> usuarios = listaUsuarios.toArrayList();
-
-        if (usuarios.size() == 0) {
-            return "No hay usuarios registrados.";
-        }
-
-        for (Usuario u : usuarios) {
-            texto += "- " + u.getNombreUsuario() + "\n";
-        }
-
-        return texto;
+        JOptionPane.showMessageDialog(null, mensaje);
     }
 }

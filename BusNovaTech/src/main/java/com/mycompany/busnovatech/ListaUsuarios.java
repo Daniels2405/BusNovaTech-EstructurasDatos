@@ -3,15 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.busnovatech;
-import java.util.ArrayList;
-import java.util.List;
+
 /**
  *
  * @author Mario
  */
 public class ListaUsuarios {
 
-    private NodoUsuario cabeza;
+    NodoUsuario cabeza;
 
     public ListaUsuarios() {
         cabeza = null;
@@ -49,19 +48,11 @@ public class ListaUsuarios {
             actual = actual.siguiente;
         }
 
-        return null; // No encontrado
-    }
-    // Convertir lista enlazada a ArrayList
-    public List<Usuario> toArrayList() {
-
-    List<Usuario> lista = new ArrayList<>();
-    NodoUsuario actual = cabeza;
-
-    while (actual != null) {
-        lista.add(actual.dato);
-        actual = actual.siguiente;
+        return null;
     }
 
-    return lista;
-}
+    // Nuevo método para que Manager pueda recorrer la lista
+    public NodoUsuario getCabeza() {
+        return cabeza;
+    }
 }
