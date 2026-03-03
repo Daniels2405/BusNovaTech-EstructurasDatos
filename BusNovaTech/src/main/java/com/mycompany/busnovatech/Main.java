@@ -64,10 +64,11 @@ public static Configuracion configuracion;
 
         if (usuario != null && usuario.validarContrasena(pass)) {
             JOptionPane.showMessageDialog(null, "Bienvenido " + nombre);
+            menuPrincipal();   
         } else {
             JOptionPane.showMessageDialog(null, "Credenciales incorrectas.");
         }
-        menuPrincipal();
+        
     }
 
     public static void menuPrincipal(){
