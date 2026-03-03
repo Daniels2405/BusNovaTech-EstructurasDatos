@@ -7,7 +7,7 @@ import com.mycompany.busnovatech.Buses.*;
 import com.mycompany.busnovatech.Estructuras.*;
 
 public class Main {
-
+    
     public static ColaBuses colaBuses;
     public static ConfigManager configManager = new ConfigManager();
     public static Configuracion configuracion;
@@ -16,7 +16,7 @@ public class Main {
     public static ManagerUsuarios managerUsuarios;
 
     public static void main(String[] args) {
-
+        
         managerUsuarios = new ManagerUsuarios();
         listaUsuarios = new ListaUsuarios();
 
@@ -86,27 +86,27 @@ public class Main {
         }
     }
 
-    public static void menuPrincipal() {
+public static void menuPrincipal() {
 
-        try {
-            configuracion = configManager.cargarConfig();
+    try {
+        configuracion = configManager.cargarConfig(null);
 
-            if (configuracion != null && configuracion.getTerminalBuses() != null) {
-                colaBuses = configuracion.getTerminalBuses().getColaBuses();
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,
-                    "Error al cargar/crear la configuración: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+        if (configuracion != null && configuracion.getTerminalBuses() != null) {
+            colaBuses = configuracion.getTerminalBuses().getColaBuses();
         }
 
-        int opcionMenu = 0;
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null,
+                "Error al cargar/crear la configuración: " + e.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+    }
 
-        do {
-            try{
-                    String texto = "========= BusNovaTech =========\n"
+    int opcionMenu = 0;
+
+    do {
+        try {
+            String texto = "========= BusNovaTech =========\n"
                     + "1. Módulo Buses\n"
                     + "2. Módulo Terminales\n"
                     + "3. Módulo Atención / Cola\n"
@@ -121,9 +121,29 @@ public class Main {
 
             switch (opcionMenu) {
 
-                case 1:
-                    JOptionPane.showMessageDialog(null, "Módulo Buses (en desarrollo)");
-                    break;
+            case 1:
+               // Crear terminal si no existe
+               if (configuracion == null || configuracion.getTerminalBuses() == null) {
+                   configuracion = configManager.crearTerminal(); // Método público en ConfigManager
+                   colaBuses = configuracion.getTerminalBuses().getColaBuses();
+                   JOptionPane.showMessageDialog(null, "Terminal y buses creados correctamente.");
+               }
+
+               // Mostrar lista de buses
+               if (colaBuses != null && !colaBuses.isEmpty()) {
+                   String mensaje = "=== Lista de Buses ===\n";
+                   Bus actual = colaBuses.front(); // front() devuelve el primer Bus
+                   while (actual != null) {
+                       mensaje += "ID: " + actual.getIdBus() +
+                                  ", Terminal: " + actual.getTerminal() +
+                                  ", Tipo: " + actual.getTipoBus() + "\n";
+                       actual = actual.getSiguiente(); // Siguiente bus en la cola
+                   }
+                   JOptionPane.showMessageDialog(null, mensaje);
+               } else {
+                   JOptionPane.showMessageDialog(null, "No hay buses disponibles.");
+               }
+               break;
 
                 case 2:
                     JOptionPane.showMessageDialog(null, "Módulo Terminales (en desarrollo)");
@@ -143,12 +163,14 @@ public class Main {
 
                 default:
                     JOptionPane.showMessageDialog(null, "Opción inválida");
-            } 
-            }catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(null,"Error: Debe ingresar un número válido.");
             }
 
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: Debe ingresar un número válido.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado: " + e.getMessage());
+        }
 
-        } while (opcionMenu != 5);
-    }
+    } while (opcionMenu != 5);
+}
 }
