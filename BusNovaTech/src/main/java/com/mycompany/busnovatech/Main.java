@@ -22,9 +22,8 @@ public class Main {
         
         managerUsuarios = new ManagerUsuarios();
 
-        // CARGA CORREGIDA (sin List, sin for-each)
         listaUsuarios = managerUsuarios.cargarUsuarios();
-
+        colaTickets = managerTickets.cargarTickets();
         int opcion = 0;
 
         do { 
