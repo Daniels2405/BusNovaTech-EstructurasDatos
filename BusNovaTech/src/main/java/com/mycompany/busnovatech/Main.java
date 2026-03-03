@@ -25,39 +25,48 @@ public class Main {
             listaUsuarios.agregarUsuario(u);
         }
 
-        int opcion;
+       
+            int opcion = 0;
 
-        do {
-            String input = JOptionPane.showInputDialog(
-                    "1. Registrar\n2. Iniciar sesión\n3. Salir"
-            );
+        do { 
+            try {
 
-            if (input == null) { // si le da cancelar
-                opcion = 3;
-            } else {
-                opcion = Integer.parseInt(input);
+                String input = JOptionPane.showInputDialog(
+                        "1. Registrar\n2. Iniciar sesión\n3. Salir"
+                );
+
+                if (input == null) { // si presiona cancelar
+                    opcion = 3;
+                } else {
+                    opcion = Integer.parseInt(input);
+                }
+
+                switch (opcion) {
+
+                    case 1:
+                        Registro.registrar(listaUsuarios, managerUsuarios);
+                        break;
+
+                    case 2:
+                        login(listaUsuarios);
+                        break;
+
+                    case 3:
+                        JOptionPane.showMessageDialog(null, "Saliendo...");
+                        break;
+
+                    default:
+                        JOptionPane.showMessageDialog(null, "Opción inválida");
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, 
+                    "Error: Debe ingresar un número válido.");
             }
-
-            switch (opcion) {
-
-                case 1:
-                    Registro.registrar(listaUsuarios, managerUsuarios);
-                    break;
-
-                case 2:
-                    login(listaUsuarios);
-                    break;
-
-                case 3:
-                    JOptionPane.showMessageDialog(null, "Saliendo...");
-                    break;
-
-                default:
-                    JOptionPane.showMessageDialog(null, "Opción inválida");
-            }
-
-        } while (opcion != 3);
-    }
+            } while (opcion != 3);
+        }
+    
+    
 
     public static void login(ListaUsuarios lista) {
 
@@ -71,7 +80,7 @@ public class Main {
 
         if (usuario != null && usuario.validarContrasena(pass)) {
             JOptionPane.showMessageDialog(null, "Bienvenido " + nombre);
-            menuPrincipal(); // SOLO si login es correcto
+            menuPrincipal(); // Solo si login es correcto
         } else {
             JOptionPane.showMessageDialog(null, "Credenciales incorrectas.");
         }
@@ -93,15 +102,16 @@ public class Main {
                     JOptionPane.ERROR_MESSAGE);
         }
 
-        int opcionMenu;
+        int opcionMenu = 0;
 
         do {
-            String texto = "========= BusNovaTech =========\n"
+            try{
+                    String texto = "========= BusNovaTech =========\n"
                     + "1. Módulo Buses\n"
                     + "2. Módulo Terminales\n"
                     + "3. Módulo Atención / Cola\n"
                     + "4. MÓDULO 4 (Reportes / Historial)\n"
-                    + "5. Salir\n\n"
+                    + "5. Cerrar Sesión\n\n"
                     + "Digite una opción:";
 
             String input = JOptionPane.showInputDialog(texto);
@@ -133,7 +143,11 @@ public class Main {
 
                 default:
                     JOptionPane.showMessageDialog(null, "Opción inválida");
+            } 
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null,"Error: Debe ingresar un número válido.");
             }
+
 
         } while (opcionMenu != 5);
     }
