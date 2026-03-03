@@ -13,14 +13,16 @@ public class Bus {
     private String terminal;
     private TipoBus tipoBus;
     private Bus siguiente;
+    private int capacidad;
 
-    public Bus(int idBus, String terminal, TipoBus tipoBus) {
+    public Bus(int idBus, String terminal, TipoBus tipoBus, int capacidad) {
         this.idBus = idBus;
         this.terminal = terminal;
         this.tipoBus = tipoBus;
+        this.capacidad = capacidad; // Nota Mario: Añadí capacidad de ka clase bus que creó 
+        //Jonh para evitar duplicaciones de clases pero manteniendo lo mejor de ambas.
         this.siguiente = null;
     }
-
     public int getIdBus() {
         return idBus;
     }
@@ -45,10 +47,14 @@ public class Bus {
     public void setSiguiente(Bus siguiente) {
         this.siguiente = siguiente;
     }
+    public int getCapacidad() {
+        return capacidad;
+    }
 
     @Override
     public String toString() {
-        return "Bus [idBus=" + idBus + ", terminal=" + terminal + ", tipoBus=" + tipoBus + "]";
+        return "Bus [idBus=" + idBus + ", terminal=" + terminal + ", tipoBus=" + tipoBus + ", capacidad=" + capacidad + "]";
     }
     
 }
+
