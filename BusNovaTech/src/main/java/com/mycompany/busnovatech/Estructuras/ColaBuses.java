@@ -17,7 +17,7 @@ public class ColaBuses {
         this.ultimo = null;
     }
     public void Enqueue(int idBus, String terminal, TipoBus tipoBus){
-        Bus nuevoBus = new Bus(idBus, terminal, tipoBus);
+        Bus nuevoBus = new Bus(idBus, terminal, tipoBus, 25);
         if (ultimo != null) {
             ultimo.setSiguiente(nuevoBus);
         }
